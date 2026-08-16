@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolHub · Launcher</title>
+<style>
+  :root{
+    --bg:#0e1116;--panel:#161b22;--panel-hi:#1c232d;--line:#2a323d;--line-hi:#3a4553;
+    --ink:#e6edf3;--ink-dim:#8b949e;--ink-faint:#5a6472;
+    --accent:#4dd6a8;--accent-dim:#22523f;
+    --radius:10px;
+    --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;
+    font-feature-settings:"cv11","ss01";
+    background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0);
+    background-size:24px 24px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:26px 22px 60px}
+
+  header{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+  header .mark{font-family:var(--mono);font-weight:700;font-size:22px;letter-spacing:-1px;color:var(--accent)}
+  header .mark::before{content:"▚ ";color:var(--ink-faint)}
+  header .sub{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:1px}
+  .lede{color:var(--ink-dim);font-size:13px;line-height:1.6;max-width:680px;margin-bottom:22px}
+  .lede b{color:var(--ink)}
+
+  .toolbar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
+  .search{display:flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;flex:1;min-width:220px;max-width:380px}
+  .search:focus-within{border-color:var(--line-hi)}
+  .search svg{width:16px;height:16px;color:var(--ink-faint);flex:0 0 auto}
+  .search input{background:none;border:none;outline:none;color:var(--ink);font-family:var(--mono);font-size:13px;width:100%}
+  .search input::placeholder{color:var(--ink-faint)}
+  .stat{font-family:var(--mono);font-size:11px;color:var(--ink-faint);letter-spacing:.5px}
+  .stat b{color:var(--accent)}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:22px}
+  .card-h{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;background:var(--panel-hi)}
+  .card-h .n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);background:var(--accent-dim);border-radius:5px;padding:3px 8px;flex:0 0 auto}
+  .card-h h2{font-size:14px;font-weight:600;letter-spacing:.3px}
+  .card-h .c{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--ink-faint);letter-spacing:.5px}
+  .card-b{padding:16px}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+
+  .tile{display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line);border-radius:12px;
+    padding:18px 18px;transition:.14s;position:relative;overflow:hidden}
+  .tile:hover{border-color:var(--accent);background:var(--panel-hi);transform:translateY(-2px)}
+  .tile:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .ico{width:56px;height:56px;border-radius:13px;flex:0 0 auto;display:grid;place-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.35);overflow:hidden}
+  .ico svg{width:34px;height:34px;display:block}
+  .meta{min-width:0;flex:1}
+  .meta .name{font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .meta .host{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:5px}
+  .arrow{flex:0 0 auto;color:var(--ink-faint);opacity:0;transform:translateX(-4px);transition:.14s}
+  .tile:hover .arrow{opacity:1;transform:translateX(0);color:var(--accent)}
+
+  .empty{display:none;font-family:var(--mono);font-size:12px;color:var(--ink-faint);padding:24px 4px;letter-spacing:.5px}
+
+  footer{margin-top:40px;font-family:var(--mono);font-size:11px;color:var(--ink-faint);line-height:1.7;text-align:center}
+  footer code{background:var(--panel-hi);padding:1px 6px;border-radius:4px;color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><span class="mark">TOOLHUB</span><span class="sub">launcher · siti + tool + AI</span></header>
+  <p class="lede">Tutti i tuoi strumenti in un posto, ordinati per categoria. Ogni riquadro apre il sito in una <b>nuova scheda</b>. Cerca per filtrare al volo.</p>
+
+  <div class="toolbar">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="cerca un tool…" autocomplete="off" spellcheck="false">
+    </label>
+    <span class="stat"><b id="total">0</b> tool · <b id="cats">0</b> categorie</span>
+  </div>
+
+  <div id="board"></div>
+  <div class="empty" id="empty">// nessun risultato</div>
+
+  <footer>Clic → apre in nuova scheda · loghi SVG incorporati (nessuna rete) · modifica l'array <code>DATA</code></footer>
+</div>
+
+<script>
+/* ============================================================
+   Loghi SVG inline: nessuna dipendenza di rete, sempre nitidi.
+   LOGOS[key] = { bg, svg }  →  bg = sfondo icona, svg = markup logo (34px)
+   In DATA ogni voce usa "logo" = chiave in LOGOS.
+   Per aggiungere un tool: crea la voce in LOGOS e referenziala in DATA.
+   ============================================================ */
+const LOGOS = {
+  claude:{bg:"#d97757",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M4.7 15.5l4.2-2.36.07-.2-.07-.11h-.2l-.7-.04-2.36-.06-2.05-.086-1.98-.107-.5-.107L0 11.7l.048-.31.42-.28.6.052 1.33.09 2 .138 1.45.085 2.15.223h.34l.048-.138-.117-.085-.09-.085-2.06-1.396-2.23-1.475-1.17-.85-.63-.43-.32-.4-.137-.88.57-.63.767.052.196.053.778.597 1.66 1.285 2.17 1.597.318.264.127-.09.016-.063-.143-.238-1.18-2.132-1.26-2.17-.56-.9-.148-.54a2.6 2.6 0 01-.09-.64l.65-.884.36-.116.87.116.365.317.54 1.234.875 1.945 1.358 2.647.398.785.212.726.08.223h.138v-.127l.112-1.498.207-1.84.201-2.367.069-.667.328-.795.652-.43.51.244.42.6-.058.39-.25 1.623-.49 2.547-.32 1.706h.186l.213-.213.86-1.142 1.446-1.806.638-.719.744-.79.478-.379h.905l.666.99-.298 1.02-.932 1.181-.772 1-1.107 1.49-.692 1.192.064.096.166-.016 2.518-.536 1.36-.246 1.623-.279.734.344.08.348-.288.712-1.732.427-2.031.406-3.026.716-.037.027.043.052 1.363.128.583.032h1.427l2.657.198.695.46.417.562-.07.427-1.07.546-1.446-.344-3.376-.803-1.158-.29h-.16v.096l.966.945 1.771 1.599 2.216 2.06.113.51-.285.402-.3-.043-1.945-1.463-.75-.66-1.698-1.43h-.112v.15l.39.573 2.068 3.107.107.953-.15.31-.535.187-.588-.107-1.21-1.698-1.246-1.91-1.006-1.712-.123.07-.593 6.386-.278.326-.64.245-.534-.406-.284-.657.284-1.301.343-1.699.278-1.35.252-1.679.15-.557-.01-.037-.123.017-1.264 1.734-1.923 2.598-1.521 1.628-.365.144-.632-.328.06-.585.353-.518 2.102-2.675.918-1.199.593-.694-.005-.1h-.036l-4.126 2.68-.734.096-.316-.295.038-.485.15-.16 1.243-.853z"/></svg>`},
+  openai:{bg:"#000000",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M22.28 9.82a5.98 5.98 0 00-.52-4.91 6.05 6.05 0 00-6.51-2.9A6.07 6.07 0 004.98 4.18a5.98 5.98 0 00-3.99 2.9 6.05 6.05 0 00.74 7.1 5.98 5.98 0 00.51 4.91 6.05 6.05 0 006.52 2.9A5.98 5.98 0 0013.26 24a6.06 6.06 0 005.77-4.21 5.99 5.99 0 003.99-2.9 6.05 6.05 0 00-.74-7.07zM13.26 22.43a4.48 4.48 0 01-2.88-1.04l.14-.08 4.78-2.76a.79.79 0 00.39-.68v-6.74l2.02 1.17a.07.07 0 01.04.06v5.58a4.5 4.5 0 01-4.49 4.49zM3.6 18.3a4.47 4.47 0 01-.54-3.02l.14.08 4.78 2.76a.78.78 0 00.78 0l5.84-3.37v2.33a.08.08 0 01-.03.07L9.74 20.5a4.5 4.5 0 01-6.14-1.64zM2.34 7.9a4.49 4.49 0 012.35-1.97v5.68a.76.76 0 00.39.68l5.81 3.35-2.02 1.17a.08.08 0 01-.07 0l-4.83-2.79A4.5 4.5 0 012.34 7.9zm16.6 3.86l-5.84-3.4L15.11 7.2a.08.08 0 01.07 0l4.83 2.79a4.49 4.49 0 01-.68 8.1v-5.68a.79.79 0 00-.39-.65zm2.01-3.03l-.14-.08-4.77-2.78a.78.78 0 00-.79 0L9.33 9.2V6.87a.07.07 0 01.03-.07l4.83-2.78a4.49 4.49 0 016.66 4.65zM8.23 12.86L6.21 11.7a.08.08 0 01-.04-.06V6.07a4.49 4.49 0 017.36-3.44l-.14.08L8.6 5.47a.79.79 0 00-.39.68zm1.1-2.36L11.93 9l2.61 1.5v3l-2.61 1.5-2.61-1.5z"/></svg>`},
+  gemini:{bg:"#1c1e21",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4285f4"/><stop offset=".5" stop-color="#9b72f2"/><stop offset="1" stop-color="#d96570"/></linearGradient></defs><path fill="url(#gm)" d="M12 2c.3 4.9 4.8 9.4 9.7 9.7v.6C16.8 12.6 12.3 17.1 12 22h-.6C11.1 17.1 6.6 12.6 1.7 12.3v-.6C6.6 11.4 11.1 6.9 11.4 2H12z"/></svg>`},
+  deepseek:{bg:"#4d6bfe",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M21.4 5.3c-.2-.1-.3.05-.5.16-.06.04-.12.1-.18.15-.5.53-1.08.87-1.85.83-1.12-.06-2.08.3-2.93 1.15-.18-1.06-.78-1.7-1.7-2.1-.47-.2-.96-.27-1.46-.3-.3-.02-.28-.13-.13-.34.27-.36.53-.72.5-1.2-.05-.7-.6-1.3-1.32-1.34-.9-.05-1.6.32-2.2 1a3 3 0 00-.7 2.4c.08.62.5.98 1.05 1.28.4.22.44.4.32.8-.24.8-.7 1.44-1.4 1.9-.9.6-1.9.9-2.98.86a6.7 6.7 0 00-1.28.05C1.24 8.4.5 9.15.36 10.3c-.13 1.06.4 1.9 1.5 2.35.1.04.24.06.28.18-.14.6-.15 1.2-.06 1.8.22 1.7 1.02 3.05 2.36 4.1.4.32.87.5 1.35.66.5.17.6.5.5.94-.06.3-.13.6-.18.9-.03.2.06.24.24.28.6.14 1.2.1 1.8-.03.6-.14 1.16-.36 1.6-.83a2.7 2.7 0 01.5-.43c.16-.1.3-.06.4.1.24.4.6.66 1.06.78.9.24 1.75.1 2.55-.36.3-.17.42-.13.58.15.36.6.9.94 1.6 1 .78.08 1.5-.1 2.1-.6.15-.13.28-.1.42.02.4.35.87.5 1.4.5.2 0 .28-.08.24-.28-.04-.2-.1-.4-.14-.6-.06-.3-.02-.5.28-.66 1.5-.8 2.4-2.1 2.7-3.77.35-2-.1-3.8-1.3-5.4-.35-.5-.3-.86.15-1.28.7-.66 1.06-1.5 1-2.45-.05-.85-.4-1.5-1.1-1.9zM11.6 18.6c-1.3-1-2.4-2-3.5-3.2-.5-.55-.3-1.4.35-1.68.3-.13.62-.1.9.1.7.5 1.44.9 2.24 1.1.6.14 1.2.24 1.8.1.34-.08.65-.03.9.24.6.65.5 1.44-.24 1.9-.42.27-.9.4-1.4.5-.63.13-1.2.2-1.65.28l.65.35z"/></svg>`},
+  perplexity:{bg:"#1f1f1f",svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#20b8cd" stroke-width="1.6" xmlns="http://www.w3.org/2000/svg"><path d="M12 3v18M12 7.5L5 4v9l7 4.5 7-4.5V4l-7 3.5z" stroke-linejoin="round"/><path d="M5 13l7 4.5 7-4.5" stroke-linejoin="round"/><path d="M12 3v4.5"/></svg>`},
+  grok:{bg:"#000000",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M6.3 18.7l8-8 2.2 2.2-8 8H6.3v-2.2zM9.5 5.3l9.2 13.4h-2.9L6.6 5.3h2.9zM17.8 5.3v6.5l-2.2-3.2V5.3h2.2z"/></svg>`},
+  mistral:{bg:"#0a0a0a",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="4" height="4" fill="#ffd800"/><rect x="18" y="3" width="4" height="4" fill="#ffd800"/><rect x="2" y="7" width="4" height="4" fill="#ffaf00"/><rect x="10" y="7" width="4" height="4" fill="#ffaf00"/><rect x="18" y="7" width="4" height="4" fill="#ffaf00"/><rect x="2" y="11" width="20" height="4" fill="#ff8205"/><rect x="2" y="15" width="4" height="4" fill="#fa500f"/><rect x="10" y="15" width="4" height="4" fill="#fa500f"/><rect x="18" y="15" width="4" height="4" fill="#fa500f"/><rect x="2" y="19" width="8" height="2" fill="#e10500"/><rect x="14" y="19" width="8" height="2" fill="#e10500"/></svg>`},
+  midjourney:{bg:"#111111",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M3 17.5C4.5 9 10 4.5 20 4c-1.2 1.3-2 2.4-2.6 3.8-2.7.2-4.7 1-6.5 2.6 2.2-.5 4-.3 5.7.6-3 .8-5 2.3-6.6 4.6 1.9-.7 3.6-.8 5.4-.2-2.8 1.1-4.6 2.6-5.8 4.7-2-1-3.4-2.2-4-2.9-.5.6-1 1.2-1 1.8v.2H3v-1.5z"/></svg>`},
+  luma:{bg:"#111827",svg:`<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.6"/><path d="M12 3a9 9 0 000 18 4.5 4.5 0 010-9 4.5 4.5 0 000-9z" fill="#fff"/></svg>`},
+  eleven:{bg:"#0b0b0b",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><rect x="7" y="4" width="3.2" height="16" rx="0.4"/><rect x="14" y="4" width="3.2" height="16" rx="0.4"/></svg>`},
+  runway:{bg:"#000000",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h9a5 5 0 013 9l3 7h-4l-2.6-6H8v6H4V4zm4 3v3.2h4.2a1.6 1.6 0 000-3.2H8z"/></svg>`},
+  canva:{bg:"#00c4cc",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm2.1 13.4c-1.9 1.6-4.4 1.4-5.6-.4-1.2-1.8-.8-4.6 1-6.2 1.3-1.1 2.9-1.3 3.9-.6.6.4.9 1 .8 1.6-.06.5-.4.8-.8.8-.35 0-.5-.2-.66-.5-.2-.4-.4-.55-.75-.55-.9 0-1.7 1.4-1.7 2.9 0 1.1.5 1.8 1.35 1.8.7 0 1.3-.4 1.9-1.05.24-.26.46-.36.68-.28.3.1.44.44.28.8-.1.24-.3.5-.55.75z"/></svg>`},
+  figma:{bg:"#1a1a1a",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#0acf83" d="M8 22a3.5 3.5 0 003.5-3.5V15H8a3.5 3.5 0 000 7z"/><path fill="#a259ff" d="M4.5 11.5A3.5 3.5 0 018 8h3.5v7H8a3.5 3.5 0 01-3.5-3.5z"/><path fill="#f24e1e" d="M4.5 4.5A3.5 3.5 0 018 1h3.5v7H8a3.5 3.5 0 01-3.5-3.5z"/><path fill="#ff7262" d="M11.5 1H15a3.5 3.5 0 010 7h-3.5V1z"/><path fill="#1abcfe" d="M19 11.5A3.5 3.5 0 1112 11.5a3.5 3.5 0 017 0z"/></svg>`},
+  notion:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#000" d="M4.6 4.2l12.9-.95c1.58-.13 2 .04 2.98.77l2.44 1.72c.67.5.9.63.9 1.17v14c0 .98-.35 1.56-1.6 1.65l-14.9.9c-.95.04-1.4-.1-1.9-.73L2.1 20.4c-.54-.72-.76-1.25-.76-1.88V5.9c0-.8.36-1.47 1.26-1.7z"/><path fill="#fff" d="M17.5 3.25L4.6 4.2c-.9.08-1.1.5-.75 1.02l1.9 1.5 13.4-.8c.3-.02.55.13.32.4l-2.2 1.58v10.6l1.7-.1c.3-.02.44-.2.44-.45V6.3c0-.25-.1-.38-.4-.36zm-3.1 4.15l-8.2.48v9.5c0 .43.2.6.72.56l7.5-.44V7.4h-.02zm-1.2 1.4c.05.24 0 .48-.24.5l-.36.07v5.3l-1.5.08V9.9l-1.3-.02c-.03-.24.14-.35.44-.37l3.36-.2c.05.24 0 .48-.24.5z"/></svg>`},
+  gdrive:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#0066da" d="M4.5 19.5l2.3-4h13.9l-2.3 4z"/><path fill="#00ac47" d="M9.3 3l-6.9 12 2.3 4 6.9-12z"/><path fill="#ea4335" d="M9.3 3h5.4l6.9 12h-5.4z"/><path fill="#00832d" d="M9.3 3l2.7 4.7L9.6 12 4.4 15 2.4 15z" opacity="0"/><path fill="#2684fc" d="M6.8 15.5l2.5-4.3 2.7 4.3z" opacity="0"/><path fill="#ffba00" d="M14.7 3l-2.7 4.65L14.7 12h4.9z" opacity="0"/></svg>`},
+  gmail:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4285f4" d="M3 6v12h3V9.5l6 4.5 6-4.5V18h3V6l-9 6.75z"/><path fill="#34a853" d="M3 18h3V9.5L3 7z"/><path fill="#fbbc04" d="M18 18h3V7l-3 2.5z"/><path fill="#ea4335" d="M3 6l9 6.75L21 6l-2-1.5L12 9 5 4.5z"/></svg>`},
+  gcal:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="16" height="16" rx="2" fill="#fff" stroke="#4285f4" stroke-width="1.5"/><path fill="#4285f4" d="M4 6a2 2 0 012-2h12a2 2 0 012 2v2H4V6z"/><text x="12" y="17" font-family="Arial" font-size="9" font-weight="bold" fill="#4285f4" text-anchor="middle">31</text></svg>`},
+  trello:{bg:"#0079bf",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="4" width="7" height="16" rx="1"/><rect x="13" y="4" width="7" height="9" rx="1"/></svg>`},
+  github:{bg:"#24292e",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.47-1.1-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.9.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.26-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.9-1.29 2.74-1.02 2.74-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0012 2z"/></svg>`},
+  vscode:{bg:"#0d1117",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#0098ff" d="M17.9 2.3l-9.4 9.7L3.4 8 2 8.9 6.3 12 2 15.1l1.4.9 5.1-4 9.4 9.7L22 20V4z"/><path fill="#0098ff" d="M17.9 6.5v11L11 12z" opacity=".3"/></svg>`},
+  vercel:{bg:"#000000",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l9 16H3z"/></svg>`},
+  stackoverflow:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#bcbbbb" d="M17 21H3v-8h2v6h10v-6h2z"/><path fill="#f48024" d="M6.5 15.5l7.8 1.6.4-1.9-7.8-1.6zm1-4l7.2 3.4.8-1.8-7.2-3.4zm2-3.8l6.1 5.1 1.2-1.5-6.1-5.1zm4-3.8l-1.6 1.2 4.7 6.4 1.6-1.2zM6.3 17.6v2h8v-2z"/></svg>`},
+  codepen:{bg:"#111111",svg:`<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l9 6v6l-9 6-9-6V9z" stroke-linejoin="round"/><path d="M12 3v6M12 15v6M3 9l9 6 9-6M3 15l9-6 9 6"/></svg>`},
+  linkedin:{bg:"#0a66c2",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M6.94 5a1.94 1.94 0 11-3.88 0 1.94 1.94 0 013.88 0zM3.3 8.4h3.3V21H3.3zM9.1 8.4h3.16v1.72h.05c.44-.83 1.51-1.72 3.11-1.72 3.33 0 3.94 2.19 3.94 5.03V21h-3.29v-5.6c0-1.33-.02-3.05-1.86-3.05-1.86 0-2.14 1.45-2.14 2.95V21H9.1z"/></svg>`},
+  x:{bg:"#000000",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M18.9 2H22l-7.1 8.1L23 22h-6.5l-5-6.6L5.6 22H2.5l7.6-8.7L1.5 2H8l4.6 6zM17.8 20.1h1.7L7.3 3.8H5.5z"/></svg>`},
+  youtube:{bg:"#ffffff",svg:`<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#ff0000" d="M22.5 7.2a2.8 2.8 0 00-2-2C18.8 4.7 12 4.7 12 4.7s-6.8 0-8.5.5a2.8 2.8 0 00-2 2C1 8.9 1 12 1 12s0 3.1.5 4.8a2.8 2.8 0 002 2c1.7.5 8.5.5 8.5.5s6.8 0 8.5-.5a2.8 2.8 0 002-2c.5-1.7.5-4.8.5-4.8s0-3.1-.5-4.8z"/><path fill="#fff" d="M9.8 15.3l5.7-3.3-5.7-3.3z"/></svg>`},
+  reddit:{bg:"#ff4500",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M22 12.3a2.1 2.1 0 00-3.55-1.5 10.3 10.3 0 00-5.42-1.7l.92-4.35 3.02.64a1.5 1.5 0 101.5-1.57l-3.86-.8-1.05 4.94a10.3 10.3 0 00-5.5 1.7 2.1 2.1 0 10-2.3 3.44 4 4 0 00-.05.62c0 3.16 3.68 5.72 8.22 5.72s8.22-2.56 8.22-5.72a4 4 0 00-.05-.6A2.1 2.1 0 0022 12.3zM7.7 13.8a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm8.36 3.96c-1.02 1.02-3.98 1.02-4.06 1.02s-3.04 0-4.06-1.02a.35.35 0 01.5-.5c.65.66 2.03.9 3.56.9s2.91-.24 3.56-.9a.35.35 0 01.5.5zm-.26-2.46a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>`},
+  discord:{bg:"#5865f2",svg:`<svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M19.6 5.3A17 17 0 0015.3 4l-.2.4a12 12 0 013.8 1.9 15.7 15.7 0 00-13.8 0A12 12 0 019 4.4L8.7 4a17 17 0 00-4.3 1.3C1.7 9.3.9 13.2 1.3 17a17 17 0 005.2 2.6l.6-1a11 11 0 01-1.8-.9l.45-.34a12 12 0 0010.4 0l.45.34a11 11 0 01-1.8.9l.6 1a17 17 0 005.2-2.6c.5-4.4-.8-8.3-3.4-11.7zM8.9 14.7c-1 0-1.85-.94-1.85-2.1s.83-2.1 1.85-2.1 1.87.95 1.85 2.1c0 1.16-.83 2.1-1.85 2.1zm6.2 0c-1 0-1.85-.94-1.85-2.1s.83-2.1 1.85-2.1 1.87.95 1.85 2.1c0 1.16-.82 2.1-1.85 2.1z"/></svg>`},
+};
+
+const DATA=[
+  {cat:"AI Assistants", items:[
+    {name:"Claude",     url:"https://claude.ai/",         logo:"claude"},
+    {name:"ChatGPT",    url:"https://chatgpt.com/",       logo:"openai"},
+    {name:"Gemini",     url:"https://gemini.google.com/", logo:"gemini"},
+    {name:"DeepSeek",   url:"https://chat.deepseek.com/", logo:"deepseek"},
+    {name:"Perplexity", url:"https://www.perplexity.ai/", logo:"perplexity"},
+    {name:"Grok",       url:"https://grok.com/",          logo:"grok"},
+    {name:"Mistral",    url:"https://chat.mistral.ai/",   logo:"mistral"},
+  ]},
+  {cat:"Creatività & Media", items:[
+    {name:"Midjourney", url:"https://www.midjourney.com/", logo:"midjourney"},
+    {name:"LumaLabs",   url:"https://lumalabs.ai/",        logo:"luma"},
+    {name:"ElevenLabs", url:"https://elevenlabs.io/",      logo:"eleven"},
+    {name:"Runway",     url:"https://runwayml.com/",       logo:"runway"},
+    {name:"Canva",      url:"https://www.canva.com/",      logo:"canva"},
+    {name:"Figma",      url:"https://www.figma.com/",      logo:"figma"},
+  ]},
+  {cat:"Produttività", items:[
+    {name:"Notion",       url:"https://www.notion.so/",      logo:"notion"},
+    {name:"Google Drive", url:"https://drive.google.com/",   logo:"gdrive"},
+    {name:"Gmail",        url:"https://mail.google.com/",    logo:"gmail"},
+    {name:"Calendar",     url:"https://calendar.google.com/",logo:"gcal"},
+    {name:"Trello",       url:"https://trello.com/",         logo:"trello"},
+  ]},
+  {cat:"Sviluppo", items:[
+    {name:"GitHub",        url:"https://github.com/",        logo:"github"},
+    {name:"VS Code",       url:"https://vscode.dev/",        logo:"vscode"},
+    {name:"Vercel",        url:"https://vercel.com/",        logo:"vercel"},
+    {name:"Stack Overflow",url:"https://stackoverflow.com/", logo:"stackoverflow"},
+    {name:"CodePen",       url:"https://codepen.io/",        logo:"codepen"},
+  ]},
+  {cat:"Social & Community", items:[
+    {name:"LinkedIn", url:"https://www.linkedin.com/", logo:"linkedin"},
+    {name:"X",        url:"https://x.com/",            logo:"x"},
+    {name:"YouTube",  url:"https://www.youtube.com/",  logo:"youtube"},
+    {name:"Reddit",   url:"https://www.reddit.com/",   logo:"reddit"},
+    {name:"Discord",  url:"https://discord.com/",      logo:"discord"},
+  ]},
+];
+
+const board=document.getElementById('board');
+const empty=document.getElementById('empty');
+document.getElementById('total').textContent=DATA.reduce((a,g)=>a+g.items.length,0);
+document.getElementById('cats').textContent=DATA.length;
+
+const hostOf=u=>{try{return new URL(u).hostname.replace(/^www\./,'')}catch(e){return u}};
+
+function render(filter=""){
+  const f=filter.trim().toLowerCase();
+  board.innerHTML='';
+  let shown=0;
+  DATA.forEach((group,gi)=>{
+    const items=group.items.filter(it=>!f||it.name.toLowerCase().includes(f)||hostOf(it.url).includes(f));
+    if(!items.length)return;
+    shown+=items.length;
+    const sec=document.createElement('section');
+    sec.className='card';
+    sec.innerHTML=`<div class="card-h">
+        <span class="n">${String(gi+1).padStart(2,'0')}</span>
+        <h2>${group.cat}</h2>
+        <span class="c">${items.length} tool</span>
+      </div><div class="card-b"><div class="grid"></div></div>`;
+    const grid=sec.querySelector('.grid');
+    items.forEach(it=>{
+      const L=LOGOS[it.logo]||{bg:"#333",svg:`<span style="color:#fff;font-weight:700">${(it.name[0]||'?').toUpperCase()}</span>`};
+      const a=document.createElement('a');
+      a.className='tile';
+      a.href=it.url;a.target='_blank';a.rel='noopener noreferrer';
+      a.innerHTML=`<div class="ico" style="background:${L.bg}">${L.svg}</div>
+        <div class="meta"><div class="name">${it.name}</div><div class="host">${hostOf(it.url)}</div></div>
+        <svg class="arrow" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></svg>`;
+      grid.appendChild(a);
+    });
+    board.appendChild(sec);
+  });
+  empty.style.display=shown?'none':'block';
+}
+
+document.getElementById('q').addEventListener('input',e=>render(e.target.value));
+render();
+</script>
+</body>
+</html>
