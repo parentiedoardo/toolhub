@@ -127,6 +127,17 @@
   .swatch:hover{transform:scale(1.12)}
   .swatch.sel{border-color:#fff}
 
+  /* Sync */
+  .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex:0 0 auto;transition:.2s}
+  .sync-dot.ok{background:var(--accent)}
+  .sync-dot.busy{background:#fbbf24;animation:pulse 1s infinite}
+  .sync-dot.err{background:var(--danger)}
+  .sync-dot.ro{background:#4f8cff}
+  @keyframes pulse{50%{opacity:.35}}
+  .sync-status{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;color:var(--ink-dim);padding:11px 12px;background:var(--bg);border:1px solid var(--line);border-radius:8px;margin-bottom:16px;line-height:1.5}
+  .field input[type=password]{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:var(--mono);font-size:13px;padding:10px 12px;outline:none;transition:.12s}
+  .field a{color:var(--accent)}
+
   .modal-f{padding:16px 20px;border-top:1px solid var(--line);display:flex;gap:10px;justify-content:space-between;align-items:center}
   .modal-f .left{display:flex;gap:8px}
 
@@ -141,7 +152,7 @@
 <body>
 <div class="wrap">
   <header><span class="mark">TOOLHUB</span><span class="sub">launcher · siti + tool + AI</span></header>
-  <p class="lede">Tutti i tuoi strumenti in un posto, ordinati per categoria. Ogni riquadro apre il sito in una <b>nuova scheda</b>. Aggiungi tool e categorie dai pulsanti; tutto viene <b>salvato nel tuo browser</b>.</p>
+  <p class="lede">Tutti i tuoi strumenti in un posto, ordinati per categoria. Ogni riquadro apre il sito in una <b>nuova scheda</b>. Aggiungi tool e categorie dai pulsanti; tutto viene <b>salvato nel browser</b> e, con <b>Sync</b> attivo, nel file <b>data.json</b> del sito, così ritrovi il setup su ogni dispositivo.</p>
 
   <div class="toolbar">
     <label class="search">
@@ -152,6 +163,7 @@
     <div class="tb-actions">
       <button class="btn acc" id="addToolBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Tool</button>
       <button class="btn acc" id="addCatBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5h18M3 12h18M3 19h10"/></svg>Categoria</button>
+      <button class="btn" id="syncBtn" title="Salvataggio su GitHub"><span class="sync-dot" id="syncDot"></span>Sync</button>
       <button class="btn" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M5 21h14"/></svg>Backup</button>
       <label class="btn" for="importFile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V9m0 0l-4 4m4-4l4 4M5 3h14"/></svg>Importa</label>
       <input type="file" id="importFile" accept=".json">
@@ -161,7 +173,7 @@
   <div id="board"></div>
   <div class="empty" id="empty">// nessun risultato</div>
 
-  <footer>Clic → nuova scheda · dati salvati nel browser · usa <b>Backup</b> per esportare/spostare il setup</footer>
+  <footer>Clic → nuova scheda · dati nel browser + <b>data.json</b> nel repo · usa <b>Backup</b> per esportare/spostare il setup</footer>
 </div>
 
 <!-- Modal Tool -->
@@ -226,6 +238,29 @@
     <div class="modal-f">
       <div class="left"></div>
       <button class="btn primary" id="saveCatBtn">Salva categoria</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Sync -->
+<div class="overlay" id="syncOverlay">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-h"><span class="n">⇅</span><h3>Salvataggio su GitHub</h3><button class="x" data-close>×</button></div>
+    <div class="modal-b">
+      <div class="sync-status"><span class="sync-dot" id="syncDot2"></span><span id="syncStatusTxt">—</span></div>
+      <div class="field">
+        <label>Destinazione</label>
+        <div class="hint" id="syncTarget" style="margin-top:0;font-size:11px;color:var(--ink-dim)"></div>
+      </div>
+      <div class="field">
+        <label>Token GitHub</label>
+        <input type="password" id="f_token" placeholder="github_pat_…" spellcheck="false" autocomplete="off">
+        <div class="hint">Token <b>fine-grained</b> con accesso al solo repo <b>toolhub</b> e permesso <b>Contents: Read and write</b>. Crealo su <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a>. Resta salvato solo in questo browser, mai nel codice né nei backup. Senza token il setup viene solo letto da data.json.</div>
+      </div>
+    </div>
+    <div class="modal-f">
+      <div class="left"><button class="btn danger" id="syncOffBtn">Rimuovi token</button><button class="btn" id="syncNowBtn">Sincronizza ora</button></div>
+      <button class="btn primary" id="syncSaveBtn">Salva e connetti</button>
     </div>
   </div>
 </div>
@@ -317,10 +352,12 @@ function load(){
     const raw=localStorage.getItem(LS_KEY);
     if(raw){const p=JSON.parse(raw);if(p&&p.cats&&p.tools){state=p;return;}}
   }catch(e){}
-  state={cats:[...DEFAULT_CATS],tools:DEFAULT_TOOLS.map(t=>({...t,id:uid()}))};
-  save();
+  /* updated:0 → il data.json del sito ha sempre la precedenza sui default */
+  state={cats:[...DEFAULT_CATS],tools:DEFAULT_TOOLS.map(t=>({...t,id:uid()})),updated:0};
+  saveLocal();
 }
-function save(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){toast("Spazio di salvataggio pieno");}}
+function saveLocal(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){toast("Spazio di salvataggio pieno");}}
+function save(){state.updated=Date.now();saveLocal();schedulePush();}
 function uid(){return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-3);}
 
 /* ===================== HELPERS ===================== */
@@ -553,6 +590,150 @@ function importData(file){
   rd.readAsText(file);
 }
 
+/* ===================== SYNC SU REPO (data.json) ===================== */
+/* Lettura: data.json servito da GitHub Pages (pubblico, nessun token).
+   Scrittura: API GitHub Contents → ogni salvataggio è un commit sul repo.
+   Con il token la lettura passa dall'API, così vedi subito l'ultima versione
+   senza aspettare la ricostruzione di Pages. */
+const GH_OWNER="parentiedoardo", GH_REPO="toolhub", GH_BRANCH="main", GH_PATH="data.json";
+const CONTENTS_API=`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+const TOKEN_KEY="toolhub.ghToken";
+const PUSH_DELAY=3000; /* raggruppa modifiche ravvicinate in un solo commit */
+let ghToken="",fileSha=null,remoteMissing=false;
+let pushTimer=null,busy=false,pendingPush=false,lastPull=0;
+
+const canWrite=()=>!!ghToken;
+function loadToken(){try{ghToken=localStorage.getItem(TOKEN_KEY)||"";}catch(e){}}
+function saveToken(){try{ghToken?localStorage.setItem(TOKEN_KEY,ghToken):localStorage.removeItem(TOKEN_KEY);}catch(e){}}
+
+/* Base64 compatibile con UTF-8 (emoji, accenti) */
+function toB64(str){const b=new TextEncoder().encode(str);let bin='';for(let i=0;i<b.length;i+=0x8000)bin+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(bin);}
+function fromB64(b64){const bin=atob(b64.replace(/\s/g,''));const b=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);return new TextDecoder().decode(b);}
+
+function setSync(mode,txt){
+  ['syncDot','syncDot2'].forEach(id=>{$(id).className='sync-dot'+(mode?' '+mode:'');});
+  $('syncStatusTxt').textContent=txt;$('syncBtn').title=txt;
+}
+function idleStatus(){
+  const when=state.updated?' · '+new Date(state.updated).toLocaleString('it-IT'):'';
+  if(canWrite())setSync('ok','Salvato su data.json'+when);
+  else if(remoteMissing)setSync('','data.json non presente nel sito · dati solo nel browser');
+  else setSync('ro','Sola lettura da data.json · aggiungi il token per salvare');
+}
+
+async function api(url,opt={}){
+  const headers={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Authorization':'Bearer '+ghToken};
+  if(opt.body)headers['Content-Type']='application/json';
+  const r=await fetch(url,{...opt,headers,cache:'no-store'});
+  if(!r.ok){
+    const msg={401:'Token non valido o scaduto',403:'Il token non ha il permesso Contents in scrittura',404:'Repo non raggiungibile con questo token',409:'Conflitto di versione',422:'Conflitto di versione'}[r.status]||('Errore GitHub '+r.status);
+    const e=new Error(msg);e.status=r.status;throw e;
+  }
+  return r.json();
+}
+
+function payload(){return JSON.stringify({_app:"toolhub",_v:4,cats:state.cats,tools:state.tools,updated:state.updated||Date.now()},null,2)+"\n";}
+function validate(p){if(!p||!Array.isArray(p.cats)||!Array.isArray(p.tools))throw new Error('data.json non valido');return p;}
+
+/* Ritorna il contenuto remoto, oppure null se data.json non esiste ancora */
+async function readRemote(){
+  if(canWrite()){
+    try{
+      const f=await api(CONTENTS_API+'?ref='+GH_BRANCH);
+      fileSha=f.sha;
+      return validate(JSON.parse(fromB64(f.content)));
+    }catch(e){if(e.status===404&&await repoReachable()){fileSha=null;return null;}throw e;}
+  }
+  const u=new URL(GH_PATH,location.href);u.searchParams.set('t',Date.now());
+  const r=await fetch(u.href,{cache:'no-store'}); /* query = salta la cache di Pages */
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error('Lettura data.json fallita ('+r.status+')');
+  return validate(await r.json());
+}
+/* Distingue "file mancante" da "repo non accessibile con questo token" */
+async function repoReachable(){try{await api(`https://api.github.com/repos/${GH_OWNER}/${GH_REPO}`);return true;}catch(e){return false;}}
+
+async function writeRemote(retry=true){
+  const body={message:`ToolHub: aggiorna setup (${state.tools.length} tool, ${state.cats.length} categorie)`,content:toB64(payload()),branch:GH_BRANCH};
+  if(fileSha)body.sha=fileSha;
+  try{
+    const r=await api(CONTENTS_API,{method:'PUT',body:JSON.stringify(body)});
+    fileSha=r.content.sha;remoteMissing=false;
+  }catch(e){
+    /* sha obsoleto: qualcuno ha salvato da un altro dispositivo */
+    if((e.status===409||e.status===422)&&retry){
+      const remote=await readRemote();
+      if(remote&&(remote.updated||0)>(state.updated||0)){adopt(remote);toast('Il sito aveva una versione più recente: caricata');return;}
+      return writeRemote(false);
+    }
+    throw e;
+  }
+}
+
+function adopt(remote){
+  remote.tools.forEach(t=>{if(!t.id)t.id=uid();});
+  state={cats:remote.cats,tools:remote.tools,updated:remote.updated||0};
+  saveLocal();render($('q').value);
+}
+
+/* Pull: vince la versione con "updated" più recente */
+async function pull(silent){
+  if(busy)return;
+  busy=true;setSync('busy','Lettura di data.json…');
+  try{
+    const remote=await readRemote();
+    lastPull=Date.now();remoteMissing=!remote;
+    const rU=remote?(remote.updated||0):-1, lU=state.updated||0;
+    if(remote&&rU>lU){adopt(remote);if(!silent)toast('Setup aggiornato da data.json');}
+    else if(canWrite()&&(!remote||lU>rU)){
+      if(!state.updated)state.updated=Date.now();
+      setSync('busy','Commit su GitHub…');
+      await writeRemote();
+    }
+    busy=false;idleStatus();
+  }catch(e){busy=false;setSync('err',e.message);if(!silent)toast(e.message);}
+  if(pendingPush){pendingPush=false;schedulePush();}
+}
+
+function schedulePush(){
+  if(!canWrite())return;
+  clearTimeout(pushTimer);
+  setSync('busy','Modifiche in attesa di commit…');
+  pushTimer=setTimeout(doPush,PUSH_DELAY);
+}
+async function doPush(){
+  if(busy){pendingPush=true;return;}
+  busy=true;setSync('busy','Commit su GitHub…');
+  try{await writeRemote();busy=false;idleStatus();}
+  catch(e){busy=false;setSync('err',e.message);toast('Salvataggio fallito · '+e.message);}
+  if(pendingPush){pendingPush=false;schedulePush();}
+}
+/* Se chiudi la scheda con un commit in attesa, avvisa */
+window.addEventListener('beforeunload',e=>{if(pushTimer&&$('syncDot').classList.contains('busy')){e.preventDefault();e.returnValue='';}});
+
+function openSync(){
+  $('syncTarget').textContent=`${GH_OWNER}/${GH_REPO} · ${GH_BRANCH} · ${GH_PATH}`;
+  $('f_token').value=ghToken;
+  $('syncOffBtn').style.display=ghToken?'':'none';
+  idleStatus();
+  $('syncOverlay').classList.add('show');$('f_token').focus();
+}
+async function connectSync(){
+  const t=$('f_token').value.trim();
+  if(!t){toast('Inserisci il token');return;}
+  ghToken=t;fileSha=null;
+  await pull(true);
+  if($('syncDot').classList.contains('err')){ghToken='';return;} /* token non salvato se non funziona */
+  saveToken();$('syncOffBtn').style.display='';
+  toast('Salvataggio su GitHub attivo');
+}
+function disconnectSync(){
+  clearTimeout(pushTimer);pushTimer=null;
+  ghToken='';fileSha=null;saveToken();
+  $('f_token').value='';$('syncOffBtn').style.display='none';
+  idleStatus();toast('Token rimosso · data.json resta nel repo');
+}
+
 /* ===================== TOAST + MODALS ===================== */
 let tt;function toast(m){$('toastMsg').textContent=m;$('toast').classList.add('show');clearTimeout(tt);tt=setTimeout(()=>$('toast').classList.remove('show'),2200);}
 function closeModals(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('show'));}
@@ -565,6 +746,13 @@ $('saveToolBtn').onclick=saveTool;
 $('deleteToolBtn').onclick=deleteTool;
 $('saveCatBtn').onclick=saveCat;
 $('exportBtn').onclick=exportData;
+$('syncBtn').onclick=openSync;
+$('syncSaveBtn').onclick=connectSync;
+$('syncOffBtn').onclick=disconnectSync;
+$('syncNowBtn').onclick=()=>pull(false);
+$('f_token').addEventListener('keydown',e=>{if(e.key==='Enter')connectSync();});
+/* Rientrando sulla scheda, ricarica data.json (al massimo ogni 30 s) */
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&Date.now()-lastPull>30000)pull(true);});
 $('importFile').onchange=e=>{if(e.target.files[0])importData(e.target.files[0]);e.target.value='';};
 $('iconSeg').querySelectorAll('button').forEach(b=>b.onclick=()=>setIconMode(b.dataset.m));
 ['f_name','f_url','f_emoji','f_svg'].forEach(id=>$(id).addEventListener('input',updatePreview));
@@ -575,6 +763,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModals();});
 
 /* ===================== AVVIO ===================== */
 load();render();
+loadToken();pull(true);
 </script>
 </body>
 </html>

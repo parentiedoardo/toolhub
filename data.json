@@ -1,0 +1,391 @@
+{
+  "_app": "toolhub",
+  "_v": 4,
+  "cats": [
+    "AI Assistants",
+    "Creatività & Media",
+    "Produttività",
+    "Sviluppo",
+    "I miei progetti",
+    "Social & Community",
+    "MAIL"
+  ],
+  "tools": [
+    {
+      "name": "Claude",
+      "url": "https://claude.ai/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "claude"
+      },
+      "id": "58p7mm7m3j"
+    },
+    {
+      "name": "ChatGPT",
+      "url": "https://chatgpt.com/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "openai"
+      },
+      "id": "g4hpjsbm3j"
+    },
+    {
+      "name": "Gemini",
+      "url": "https://gemini.google.com/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "gemini"
+      },
+      "id": "aj56614m3j"
+    },
+    {
+      "name": "DeepSeek",
+      "url": "https://chat.deepseek.com/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "deepseek"
+      },
+      "id": "x6xeoetm3j"
+    },
+    {
+      "name": "Perplexity",
+      "url": "https://www.perplexity.ai/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "perplexity"
+      },
+      "id": "ox78eynm3j"
+    },
+    {
+      "name": "Grok",
+      "url": "https://grok.com/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "grok"
+      },
+      "id": "5yjubiam3j"
+    },
+    {
+      "name": "Mistral",
+      "url": "https://chat.mistral.ai/",
+      "cat": "AI Assistants",
+      "icon": {
+        "type": "preset",
+        "key": "mistral"
+      },
+      "id": "mduiswom3j"
+    },
+    {
+      "name": "Midjourney",
+      "url": "https://www.midjourney.com/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "midjourney"
+      },
+      "id": "xf0ttfzm3j"
+    },
+    {
+      "name": "LumaLabs",
+      "url": "https://lumalabs.ai/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "luma"
+      },
+      "id": "x2hdly9m3j"
+    },
+    {
+      "name": "ElevenLabs",
+      "url": "https://elevenlabs.io/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "eleven"
+      },
+      "id": "d5sxxobm3j"
+    },
+    {
+      "name": "Runway",
+      "url": "https://runwayml.com/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "runway"
+      },
+      "id": "ppgwg3vm3j"
+    },
+    {
+      "name": "Canva",
+      "url": "https://www.canva.com/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "canva"
+      },
+      "id": "nudqc84m3j"
+    },
+    {
+      "name": "Figma",
+      "url": "https://www.figma.com/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "figma"
+      },
+      "id": "vrecqe8m3j"
+    },
+    {
+      "name": "Notion",
+      "url": "https://www.notion.so/",
+      "cat": "Produttività",
+      "icon": {
+        "type": "preset",
+        "key": "notion"
+      },
+      "id": "cx2akhqm3j"
+    },
+    {
+      "name": "Google Drive",
+      "url": "https://drive.google.com/",
+      "cat": "Produttività",
+      "icon": {
+        "type": "preset",
+        "key": "gdrive"
+      },
+      "id": "j7i0qpom3j"
+    },
+    {
+      "name": "Gmail",
+      "url": "https://mail.google.com/",
+      "cat": "Produttività",
+      "icon": {
+        "type": "preset",
+        "key": "gmail"
+      },
+      "id": "8u9ytcmm3j"
+    },
+    {
+      "name": "Calendar",
+      "url": "https://calendar.google.com/",
+      "cat": "Produttività",
+      "icon": {
+        "type": "preset",
+        "key": "gcal"
+      },
+      "id": "fmfockcm3j"
+    },
+    {
+      "name": "Trello",
+      "url": "https://trello.com/",
+      "cat": "Produttività",
+      "icon": {
+        "type": "preset",
+        "key": "trello"
+      },
+      "id": "eqsnh35m3j"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "github"
+      },
+      "id": "22c256vm3j"
+    },
+    {
+      "name": "VS Code",
+      "url": "https://vscode.dev/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "vscode"
+      },
+      "id": "oqrr7hrm3j"
+    },
+    {
+      "name": "Vercel",
+      "url": "https://vercel.com/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "vercel"
+      },
+      "id": "2kwo9z0m3j"
+    },
+    {
+      "name": "Stack Overflow",
+      "url": "https://stackoverflow.com/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "stackoverflow"
+      },
+      "id": "sb2724hm3j"
+    },
+    {
+      "name": "CodePen",
+      "url": "https://codepen.io/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "codepen"
+      },
+      "id": "1fp05rxm3j"
+    },
+    {
+      "name": "DaisyUI",
+      "url": "https://daisyui.com/components/",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "daisyui"
+      },
+      "id": "183wj1lm3j"
+    },
+    {
+      "name": "UIverse",
+      "url": "https://uiverse.io/elements",
+      "cat": "Sviluppo",
+      "icon": {
+        "type": "preset",
+        "key": "uiverse"
+      },
+      "id": "z3zvskjm3j"
+    },
+    {
+      "name": "Bargarda 26",
+      "url": "https://parentiedoardo.github.io/bargarda26/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "preset",
+        "key": "bargarda"
+      },
+      "id": "ng7ttmxm3j"
+    },
+    {
+      "name": "ToolHub",
+      "url": "https://parentiedoardo.github.io/toolhub/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "preset",
+        "key": "toolhubself"
+      },
+      "id": "jptgyw5m3j"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "cat": "Social & Community",
+      "icon": {
+        "type": "preset",
+        "key": "linkedin"
+      },
+      "id": "x6lm1mlm3j"
+    },
+    {
+      "name": "X",
+      "url": "https://x.com/",
+      "cat": "Social & Community",
+      "icon": {
+        "type": "preset",
+        "key": "x"
+      },
+      "id": "eeladd4m3j"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://www.youtube.com/",
+      "cat": "Social & Community",
+      "icon": {
+        "type": "preset",
+        "key": "youtube"
+      },
+      "id": "o4phv8lm3j"
+    },
+    {
+      "name": "Reddit",
+      "url": "https://www.reddit.com/",
+      "cat": "Social & Community",
+      "icon": {
+        "type": "preset",
+        "key": "reddit"
+      },
+      "id": "8ndggdym3j"
+    },
+    {
+      "name": "Discord",
+      "url": "https://discord.com/",
+      "cat": "Social & Community",
+      "icon": {
+        "type": "preset",
+        "key": "discord"
+      },
+      "id": "rjvykhom3j"
+    },
+    {
+      "id": "yw0f3jzs5o",
+      "name": "Command Board",
+      "url": "https://command-dashboard-one.vercel.app/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "favicon",
+        "url": "https://command-dashboard-one.vercel.app/",
+        "bg": "#4dd6a8"
+      }
+    },
+    {
+      "id": "pnnkr9qmas",
+      "name": "Lucide",
+      "url": "https://lucide.dev/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "favicon",
+        "url": "https://lucide.dev/",
+        "bg": "#ffffff"
+      }
+    },
+    {
+      "id": "hujlbb19bh",
+      "name": "SplitView",
+      "url": "https://parentiedoardo.github.io/splitview/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "favicon",
+        "url": "https://parentiedoardo.github.io/splitview/",
+        "bg": "#ffffff"
+      }
+    },
+    {
+      "id": "ejasurmz2g",
+      "name": "Resend",
+      "url": "https://resend.com/",
+      "cat": "MAIL",
+      "icon": {
+        "type": "favicon",
+        "url": "https://resend.com/",
+        "bg": "#1a1a1a"
+      }
+    },
+    {
+      "id": "8tkiq1e5b5",
+      "name": "BREVO",
+      "url": "https://www.brevo.com/",
+      "cat": "MAIL",
+      "icon": {
+        "type": "favicon",
+        "url": "https://www.brevo.com/",
+        "bg": "#036343"
+      }
+    }
+  ],
+  "updated": 1792670783852
+}
