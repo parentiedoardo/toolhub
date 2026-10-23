@@ -441,7 +441,18 @@
         "url": "https://enolist.com/",
         "bg": "#197b25"
       }
+    },
+    {
+      "id": "mzzxif6y6o",
+      "name": "Firmadocumenti",
+      "url": "https://firmadocumenti.app/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "favicon",
+        "url": "https://firmadocumenti.app/",
+        "bg": "#4dd6a8"
+      }
     }
   ],
-  "updated": 1792742903058
+  "updated": 1792742940816
 }
