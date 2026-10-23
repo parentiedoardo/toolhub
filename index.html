@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ToolHub · Launcher</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap">
 <script>
 /* Tema scelto: applicato prima del rendering per evitare lo sfarfallio */
 function loadCineFonts(){
@@ -32,8 +34,11 @@ function loadCineFonts(){
   .wrap{max-width:1240px;margin:0 auto;padding:26px 22px 60px}
 
   header{display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap}
-  header .mark{font-family:var(--mono);font-weight:700;font-size:22px;letter-spacing:-1px;color:var(--accent)}
-  header .mark::before{content:"▚ ";color:var(--ink-faint)}
+  /* Logo (chiaro sui temi scuri, scuro su Bento) */
+  .th-logo{display:block;height:30px;width:auto;aspect-ratio:288/62;overflow:visible}
+  .th-logo text{font-family:'Space Grotesk','Inter',system-ui,-apple-system,sans-serif}
+  .th-logo .ti{fill:#F0F2F8}
+  header .logo{display:block;line-height:0}
   header .sub{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:1px}
   .lede{color:var(--ink-dim);font-size:13px;line-height:1.6;max-width:680px;margin-bottom:22px}
   .lede b{color:var(--ink)}
@@ -209,8 +214,8 @@ function loadCineFonts(){
   [data-theme=cinematic] .toolbar{position:sticky;top:0;z-index:50;margin:0;gap:16px;flex-wrap:nowrap;
     padding:14px max(24px,calc((100% - 1232px)/2));
     background:rgba(10,11,15,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
-  [data-theme=cinematic] .brand{display:block;font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:-.4px;cursor:pointer;flex:0 0 auto;
-    background:linear-gradient(135deg,#fff 30%,var(--accent-2) 110%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;border:none;padding:0}
+  [data-theme=cinematic] .brand{display:block;flex:0 0 auto;background:none;border:none;padding:0;cursor:pointer;line-height:0}
+  [data-theme=cinematic] .brand .th-logo{height:26px}
   [data-theme=cinematic] .search{max-width:460px;padding:0 14px;gap:10px;background:rgba(255,255,255,.04);border-color:var(--line);border-radius:10px;transition:.2s}
   [data-theme=cinematic] .search input{font-family:var(--sans);padding:10px 0}
   [data-theme=cinematic] .search:focus-within{border-color:rgba(124,92,255,.45);background:rgba(124,92,255,.05);box-shadow:0 0 0 3px rgba(124,92,255,.10)}
@@ -281,7 +286,7 @@ function loadCineFonts(){
 
   @media(max-width:720px){
     [data-theme=cinematic] .toolbar{flex-wrap:wrap;gap:10px;padding:12px 16px}
-    [data-theme=cinematic] .brand{font-size:17px}
+    [data-theme=cinematic] .brand .th-logo{height:22px}
     [data-theme=cinematic] .search{order:3;flex-basis:100%;max-width:none}
     [data-theme=cinematic] .tb-actions{margin-left:auto;width:auto;gap:6px}
     [data-theme=cinematic] .btn{padding:8px 10px;font-size:12px}
@@ -312,9 +317,7 @@ function loadCineFonts(){
     filter:blur(70px);opacity:.62;animation:drift 32s ease-in-out infinite alternate}
   @keyframes drift{to{transform:translate3d(3%,-2%,0) scale(1.08)}}
   [data-theme=glass] .wrap{position:relative;z-index:1}
-  [data-theme=glass] header .mark{font-family:var(--sans);font-size:26px;font-weight:800;letter-spacing:-.8px;
-    background:linear-gradient(120deg,#fff 20%,var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  [data-theme=glass] header .mark::before{content:none}
+  [data-theme=glass] .th-logo{height:34px}
   [data-theme=glass] header .sub{letter-spacing:.3px}
   [data-theme=glass] .lede{font-size:14px}
   [data-theme=glass] .search,[data-theme=glass] .btn{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
@@ -353,8 +356,8 @@ function loadCineFonts(){
     --accent:#ff5b2e;--accent-dim:#ffe6dd;--danger:#e5484d;--danger-dim:#fde3e3;--radius:12px}
   [data-theme=bento] body{background:#efeee9;background-image:none}
   [data-theme=bento] .wrap{max-width:1320px}
-  [data-theme=bento] header .mark{color:var(--ink);font-family:var(--sans);font-size:28px;font-weight:800;letter-spacing:-1.2px}
-  [data-theme=bento] header .mark::before{content:"■ ";color:var(--accent)}
+  [data-theme=bento] .th-logo{height:36px}
+  [data-theme=bento] .th-logo .ti{fill:#0E0F15}
   [data-theme=bento] .lede b{color:var(--ink)}
   [data-theme=bento] .toolbar{background:#fff;border-radius:22px;padding:10px;box-shadow:0 1px 2px rgba(20,20,30,.04),0 8px 24px rgba(20,20,30,.05)}
   [data-theme=bento] .search{background:var(--panel-hi);border-color:transparent;max-width:380px}
@@ -420,11 +423,11 @@ function loadCineFonts(){
 <body>
 <div class="aurora" aria-hidden="true"></div>
 <div class="wrap">
-  <header><span class="mark">TOOLHUB</span><span class="sub">launcher · siti + tool + AI</span></header>
+  <header><span class="logo"><svg class="th-logo" viewBox="22 28 288 62" role="img" aria-label="ToolHub"><defs><linearGradient id="thg-h" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#F0A44A"/></linearGradient></defs><text class="ti" x="24" y="86" font-size="76" letter-spacing="-3.5">tool<tspan font-weight="700" fill="url(#thg-h)">hub</tspan><tspan font-weight="700" fill="#F0A44A">.</tspan></text></svg></span><span class="sub">launcher · siti + tool + AI</span></header>
   <p class="lede">Tutti i tuoi strumenti in un posto, ordinati per categoria. Ogni riquadro apre il sito in una <b>nuova scheda</b>. Aggiungi tool e categorie dai pulsanti; tutto viene <b>salvato nel browser</b> e, con <b>Sync</b> attivo, nel file <b>data.json</b> del sito, così ritrovi il setup su ogni dispositivo.</p>
 
   <div class="toolbar">
-    <button class="brand" id="brand" title="Torna all'inizio">ToolHub</button>
+    <button class="brand" id="brand" title="Torna all'inizio"><svg class="th-logo" viewBox="22 28 288 62" role="img" aria-label="ToolHub"><defs><linearGradient id="thg-b" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#7C5CFF"/><stop offset="1" stop-color="#F0A44A"/></linearGradient></defs><text class="ti" x="24" y="86" font-size="76" letter-spacing="-3.5">tool<tspan font-weight="700" fill="url(#thg-b)">hub</tspan><tspan font-weight="700" fill="#F0A44A">.</tspan></text></svg></button>
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
       <input id="q" type="text" placeholder="cerca un tool…" autocomplete="off" spellcheck="false">
