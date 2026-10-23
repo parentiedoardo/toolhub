@@ -437,9 +437,9 @@
       "url": "https://enolist.com/",
       "cat": "I miei progetti",
       "icon": {
-        "type": "favicon",
-        "url": "https://enolist.com/",
-        "bg": "#197b25"
+        "type": "svg",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" width=\"512\" height=\"512\" role=\"img\" aria-label=\"EnoList\"><title>EnoList</title><rect width=\"512\" height=\"512\" rx=\"128\" fill=\"#3E6B4C\"/><g transform=\"translate(76.00 76.00)\" fill=\"none\" stroke-linecap=\"round\" stroke-width=\"45.00\"><rect x=\"60.00\" y=\"30.00\" width=\"240.00\" height=\"300.00\" rx=\"45.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"130.00\" x2=\"240.00\" y2=\"130.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"220.00\" x2=\"190.00\" y2=\"220.00\" stroke=\"#F4C6CC\"/></g></svg>",
+        "bg": "#ffffff"
       }
     },
     {
@@ -454,5 +454,5 @@
       }
     }
   ],
-  "updated": 1792742940816
+  "updated": 1792745137979
 }
