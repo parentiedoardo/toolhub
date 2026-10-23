@@ -419,7 +419,18 @@
         "url": "https://tweakblock.com/",
         "bg": "#ffffff"
       }
+    },
+    {
+      "id": "9eeiyyqn33",
+      "name": "Github",
+      "url": "https://github.com/",
+      "cat": "UTILI",
+      "icon": {
+        "type": "favicon",
+        "url": "https://github.com/",
+        "bg": "#ffffff"
+      }
     }
   ],
-  "updated": 1792742750359
+  "updated": 1792742786463
 }
