@@ -83,6 +83,16 @@
       "id": "mduiswom3j"
     },
     {
+      "name": "Figma",
+      "url": "https://www.figma.com/",
+      "cat": "Creatività & Media",
+      "icon": {
+        "type": "preset",
+        "key": "figma"
+      },
+      "id": "vrecqe8m3j"
+    },
+    {
       "name": "Midjourney",
       "url": "https://www.midjourney.com/",
       "cat": "Creatività & Media",
@@ -131,16 +141,6 @@
         "key": "canva"
       },
       "id": "nudqc84m3j"
-    },
-    {
-      "name": "Figma",
-      "url": "https://www.figma.com/",
-      "cat": "Creatività & Media",
-      "icon": {
-        "type": "preset",
-        "key": "figma"
-      },
-      "id": "vrecqe8m3j"
     },
     {
       "name": "Notion",
@@ -455,5 +455,5 @@
     }
   ],
   "favs": [],
-  "updated": 1792749180913
+  "updated": 1792751661795
 }
