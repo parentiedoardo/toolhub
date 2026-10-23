@@ -274,14 +274,15 @@
       }
     },
     {
-      "name": "Bargarda 26",
-      "url": "https://parentiedoardo.github.io/bargarda26/",
+      "id": "tvuz74p51u",
+      "name": "Enolist",
+      "url": "https://enolist.com/",
       "cat": "I miei progetti",
       "icon": {
-        "type": "preset",
-        "key": "bargarda"
-      },
-      "id": "ng7ttmxm3j"
+        "type": "svg",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" width=\"512\" height=\"512\" role=\"img\" aria-label=\"EnoList\"><title>EnoList</title><rect width=\"512\" height=\"512\" rx=\"128\" fill=\"#3E6B4C\"/><g transform=\"translate(76.00 76.00)\" fill=\"none\" stroke-linecap=\"round\" stroke-width=\"45.00\"><rect x=\"60.00\" y=\"30.00\" width=\"240.00\" height=\"300.00\" rx=\"45.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"130.00\" x2=\"240.00\" y2=\"130.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"220.00\" x2=\"190.00\" y2=\"220.00\" stroke=\"#F4C6CC\"/></g></svg>",
+        "bg": "#ffffff"
+      }
     },
     {
       "name": "LinkedIn",
@@ -355,15 +356,14 @@
       }
     },
     {
-      "id": "yw0f3jzs5o",
-      "name": "Command Board",
-      "url": "https://command-dashboard-one.vercel.app/",
+      "name": "Bargarda 26",
+      "url": "https://parentiedoardo.github.io/bargarda26/",
       "cat": "I miei progetti",
       "icon": {
-        "type": "favicon",
-        "url": "https://command-dashboard-one.vercel.app/",
-        "bg": "#4dd6a8"
-      }
+        "type": "preset",
+        "key": "bargarda"
+      },
+      "id": "ng7ttmxm3j"
     },
     {
       "id": "ejasurmz2g",
@@ -410,13 +410,13 @@
       }
     },
     {
-      "id": "tvuz74p51u",
-      "name": "Enolist",
-      "url": "https://enolist.com/",
+      "id": "mzzxif6y6o",
+      "name": "Firmadocumenti",
+      "url": "https://firmadocumenti.app/",
       "cat": "I miei progetti",
       "icon": {
         "type": "svg",
-        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" width=\"512\" height=\"512\" role=\"img\" aria-label=\"EnoList\"><title>EnoList</title><rect width=\"512\" height=\"512\" rx=\"128\" fill=\"#3E6B4C\"/><g transform=\"translate(76.00 76.00)\" fill=\"none\" stroke-linecap=\"round\" stroke-width=\"45.00\"><rect x=\"60.00\" y=\"30.00\" width=\"240.00\" height=\"300.00\" rx=\"45.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"130.00\" x2=\"240.00\" y2=\"130.00\" stroke=\"#FFFFFF\"/><line x1=\"120.00\" y1=\"220.00\" x2=\"190.00\" y2=\"220.00\" stroke=\"#F4C6CC\"/></g></svg>",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"512\" height=\"512\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"#5980a6\"/><g transform=\"translate(7.5 7.5) scale(0.76)\"><path d=\"M14 6H40L52 18V58H14Z\" fill=\"#ffffff\" stroke=\"#ffffff\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M40 6V18H52\" fill=\"#d9e6f2\" stroke=\"#ffffff\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M20 26H34M20 32H42\" fill=\"none\" stroke=\"#c9d6e3\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><path d=\"M5 47C11 34 21 33 21 42C21 49 15 49 17 44C20 37 29 37 30 44C31 48 35 48 38 43L60 33\" fill=\"none\" stroke=\"#1d2d3d\" stroke-width=\"3.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"60\" cy=\"33\" r=\"2.8\" fill=\"#1d2d3d\"/></g></svg>",
         "bg": "#ffffff"
       }
     },
@@ -432,6 +432,17 @@
       }
     },
     {
+      "id": "yw0f3jzs5o",
+      "name": "Command Board",
+      "url": "https://command-dashboard-one.vercel.app/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "favicon",
+        "url": "https://command-dashboard-one.vercel.app/",
+        "bg": "#4dd6a8"
+      }
+    },
+    {
       "id": "hujlbb19bh",
       "name": "SplitView",
       "url": "https://parentiedoardo.github.io/splitview/",
@@ -441,19 +452,8 @@
         "url": "https://parentiedoardo.github.io/splitview/",
         "bg": "#ffffff"
       }
-    },
-    {
-      "id": "mzzxif6y6o",
-      "name": "Firmadocumenti",
-      "url": "https://firmadocumenti.app/",
-      "cat": "I miei progetti",
-      "icon": {
-        "type": "svg",
-        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 64\" width=\"512\" height=\"512\"><rect width=\"64\" height=\"64\" rx=\"14\" fill=\"#5980a6\"/><g transform=\"translate(7.5 7.5) scale(0.76)\"><path d=\"M14 6H40L52 18V58H14Z\" fill=\"#ffffff\" stroke=\"#ffffff\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M40 6V18H52\" fill=\"#d9e6f2\" stroke=\"#ffffff\" stroke-width=\"2.4\" stroke-linejoin=\"round\"/><path d=\"M20 26H34M20 32H42\" fill=\"none\" stroke=\"#c9d6e3\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><path d=\"M5 47C11 34 21 33 21 42C21 49 15 49 17 44C20 37 29 37 30 44C31 48 35 48 38 43L60 33\" fill=\"none\" stroke=\"#1d2d3d\" stroke-width=\"3.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"60\" cy=\"33\" r=\"2.8\" fill=\"#1d2d3d\"/></g></svg>",
-        "bg": "#ffffff"
-      }
     }
   ],
   "favs": [],
-  "updated": 1792749150570
+  "updated": 1792749169610
 }
