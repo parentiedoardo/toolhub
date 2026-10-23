@@ -386,7 +386,18 @@
         "url": "https://www.brevo.com/",
         "bg": "#036343"
       }
+    },
+    {
+      "id": "hi12acufvq",
+      "name": "Cloudflare",
+      "url": "https://dash.cloudflare.com/",
+      "cat": "UTILI",
+      "icon": {
+        "type": "favicon",
+        "url": "https://dash.cloudflare.com/",
+        "bg": "#ffffff"
+      }
     }
   ],
-  "updated": 1792742652556
+  "updated": 1792742683814
 }
