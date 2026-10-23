@@ -361,8 +361,9 @@
       "url": "https://parentiedoardo.github.io/toolhub/",
       "cat": "I miei progetti",
       "icon": {
-        "type": "preset",
-        "key": "toolhubself"
+        "type": "svg",
+        "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 120 120\" role=\"img\" aria-label=\"ToolHub\">\n  <defs>\n    <linearGradient id=\"th-grad\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#7C5CFF\"/>\n      <stop offset=\"1\" stop-color=\"#F0A44A\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"120\" height=\"120\" rx=\"28\" fill=\"#0E0F15\"/>\n  <rect width=\"120\" height=\"120\" rx=\"28\" fill=\"url(#th-grad)\" opacity=\"0.09\"/>\n  <rect x=\"1\" y=\"1\" width=\"118\" height=\"118\" rx=\"27\" fill=\"none\" stroke=\"url(#th-grad)\" stroke-width=\"0.75\" opacity=\"0.4\"/>\n  <rect x=\"21\" y=\"38\" width=\"30\" height=\"9\" fill=\"#F0F2F8\"/>\n  <rect x=\"33\" y=\"25\" width=\"10\" height=\"63\" fill=\"#F0F2F8\"/>\n  <path d=\"M61,25 L71,25 L71,48 L89,48 Q99,48 99,58 L99,88 L89,88 L89,58 L71,58 L71,88 L61,88 Z\" fill=\"url(#th-grad)\"/>\n</svg>",
+        "bg": "#0e1116"
       },
       "id": "jptgyw5m3j"
     },
@@ -455,5 +456,5 @@
     }
   ],
   "favs": [],
-  "updated": 1792751661795
+  "updated": 1792751896704
 }
