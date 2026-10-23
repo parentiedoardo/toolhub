@@ -430,7 +430,18 @@
         "url": "https://github.com/",
         "bg": "#ffffff"
       }
+    },
+    {
+      "id": "tvuz74p51u",
+      "name": "Enolist",
+      "url": "https://enolist.com/",
+      "cat": "I miei progetti",
+      "icon": {
+        "type": "favicon",
+        "url": "https://enolist.com/",
+        "bg": "#197b25"
+      }
     }
   ],
-  "updated": 1792742786463
+  "updated": 1792742903058
 }
