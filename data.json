@@ -412,16 +412,6 @@
       }
     },
     {
-      "name": "Bargarda 26",
-      "url": "https://parentiedoardo.github.io/bargarda26/",
-      "cat": "I miei progetti",
-      "icon": {
-        "type": "preset",
-        "key": "bargarda"
-      },
-      "id": "ng7ttmxm3j"
-    },
-    {
       "id": "9eeiyyqn33",
       "name": "Github",
       "url": "https://github.com/",
@@ -456,5 +446,5 @@
     }
   ],
   "favs": [],
-  "updated": 1792752087009
+  "updated": 1795439876116
 }
