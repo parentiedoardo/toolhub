@@ -443,6 +443,17 @@
         "url": "https://parentiedoardo.github.io/splitview/",
         "bg": "#ffffff"
       }
+    },
+    {
+      "id": "6elkwdyn55",
+      "name": "spaceship",
+      "url": "https://www.spaceship.com/",
+      "cat": "UTILI",
+      "icon": {
+        "type": "favicon",
+        "url": "https://www.spaceship.com/",
+        "bg": "#ffffff"
+      }
     }
   ],
   "favs": [
@@ -450,5 +461,5 @@
     "9eeiyyqn33",
     "58p7mm7m3j"
   ],
-  "updated": 1795439920488
+  "updated": 1795615303145
 }
